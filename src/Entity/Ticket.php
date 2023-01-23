@@ -28,10 +28,10 @@ class Ticket
     #[Assert\DateTime]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\ManyToOne(inversedBy: 'tickets', cascade: ['persist'])]
     private ?Category $category = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tickets')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tickets', cascade: ['persist'])]
     #[Assert\Count(
         min: 1,
         max: 5,
