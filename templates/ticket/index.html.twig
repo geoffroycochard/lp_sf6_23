@@ -6,7 +6,7 @@
 
     <h1>Tickets</h1>
 
-    <table>
+    <table class="table table-stripped">
     <tr>
         <th>Title</th>
         <th>Date</th>
@@ -18,7 +18,7 @@
             <td>{{ ticket.title }}</td>
             <td>{{ ticket.date|date('d-m-Y') }}</td>
             <td>{{ ticket.category.title }}</td>
-            <td>voir | <a href="{{ path('app_ticket_edit', {id: ticket.id}) }}">edit</a></td>
+            <td>voir | <a class="btn btn-primary" href="{{ path('app_ticket_edit', {id: ticket.id}) }}">edit</a></td>
         </tr>
     {% else %}
         <p>No ticket</p>
