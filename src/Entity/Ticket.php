@@ -25,7 +25,7 @@ class Ticket
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\DateTime]
+    #[Assert\Type('datetime')]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets', cascade: ['persist'])]
