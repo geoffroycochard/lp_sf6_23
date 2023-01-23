@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TicketController!{% endblock %}
+
+{% block body %}
+
+    <h1>Tickets</h1>
+
+    <table class="table table-stripped">
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+    {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.date|date('d-m-Y') }}</td>
+            <td>{{ ticket.category.title }}</td>
+            <td>voir | <a class="btn btn-primary" href="{{ path('app_ticket_edit', {id: ticket.id}) }}">edit</a></td>
+        </tr>
+    {% else %}
+        <p>No ticket</p>
+    {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
