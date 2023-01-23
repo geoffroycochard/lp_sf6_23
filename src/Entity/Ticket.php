@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -17,18 +18,26 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\DateTime]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tickets')]
+    #[Assert\Count(
+        min: 1,
+        max: 5,
+        minMessage: 'You must specify at least one category',
+        maxMessage: 'You cannot specify more than {{ limit }} categories',
+    )]
     private Collection $users;
 
     public function __construct()
