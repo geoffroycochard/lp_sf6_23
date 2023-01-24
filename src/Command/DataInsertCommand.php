@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Repository\TicketRepository;
+use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -69,6 +70,7 @@ class DataInsertCommand extends Command
                 ->addUser($user)
                 ->setCategory($category)
             ;
+
             $this->ticketRepository->save($ticket, true);
         }
 

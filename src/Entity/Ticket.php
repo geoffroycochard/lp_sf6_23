@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TicketRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Ticket
 {
     #[ORM\Id]
@@ -39,6 +41,14 @@ class Ticket
         maxMessage: 'You cannot specify more than {{ limit }} categories',
     )]
     private Collection $users;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotNull]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotNull]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -121,4 +131,42 @@ class Ticket
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpudatedAt(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
 }
